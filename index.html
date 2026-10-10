@@ -11,6 +11,7 @@
   <title>Document Vault</title>
 
   <style>
+
     * {
       box-sizing: border-box;
       margin: 0;
@@ -172,11 +173,6 @@
       background: #1d4ed8;
     }
 
-    .secondary {
-      background: #e8eefc;
-      color: #1d4ed8;
-    }
-
     .status {
       display: none;
 
@@ -239,6 +235,7 @@
 
     .document-info {
       min-width: 0;
+      flex: 1;
     }
 
     .document-name {
@@ -253,6 +250,8 @@
       color: #64748b;
 
       font-size: 12px;
+
+      line-height: 1.5;
     }
 
     .document-actions {
@@ -277,10 +276,29 @@
       text-decoration: none;
 
       border-radius: 8px;
+
+      border: none;
+
+      cursor: pointer;
+
+      display: inline-block;
+    }
+
+    .small-button:hover {
+      opacity: .9;
+      transform: translateY(-1px);
     }
 
     .download {
       background: #0f766e;
+    }
+
+    .delete {
+      background: #dc2626;
+    }
+
+    .delete:hover {
+      background: #b91c1c;
     }
 
     .empty {
@@ -289,14 +307,6 @@
       padding: 30px 10px;
 
       color: #64748b;
-    }
-
-    .divider {
-      height: 1px;
-
-      background: #e5e7eb;
-
-      margin: 25px 0;
     }
 
     .security-note {
@@ -350,13 +360,19 @@
 
         text-align: center;
       }
+
     }
+
   </style>
 </head>
+
 
 <body>
 
   <div class="container">
+
+
+    <!-- HEADER -->
 
     <header>
 
@@ -364,7 +380,9 @@
         📁
       </div>
 
-      <h1>Document Vault </h1>
+      <h1>
+        Document Vault
+      </h1>
 
       <p class="subtitle">
         Secure access to your documents
@@ -373,15 +391,21 @@
     </header>
 
 
-    <!-- VIEW DOCUMENTS -->
+
+    <!-- =========================================
+         VIEW DOCUMENTS
+         ========================================= -->
 
     <section class="card">
 
-      <h2>🔐 Access Documents</h2>
+      <h2>
+        🔐 Access Documents
+      </h2>
 
       <p class="card-description">
         Enter your Access Code to view your documents.
       </p>
+
 
       <label for="accessCode">
         Access Code
@@ -394,6 +418,7 @@
         autocomplete="off"
       >
 
+
       <button
         class="primary"
         onclick="loadDocuments()"
@@ -401,10 +426,12 @@
         View Documents
       </button>
 
+
       <div
         id="viewStatus"
         class="status"
       ></div>
+
 
       <div
         id="documents"
@@ -414,16 +441,23 @@
     </section>
 
 
-    <!-- UPLOAD -->
+
+    <!-- =========================================
+         UPLOAD DOCUMENT
+         ========================================= -->
 
     <section class="card">
 
-      <h2>📤 Upload Document</h2>
+      <h2>
+        📤 Upload Document
+      </h2>
+
 
       <p class="card-description">
         Enter an Access Code and upload your document.
         The code will be used to find your documents later.
       </p>
+
 
       <label for="uploadCode">
         Access Code
@@ -436,7 +470,9 @@
         autocomplete="off"
       >
 
+
       <br><br>
+
 
       <label for="fileInput">
         Select Document
@@ -447,6 +483,7 @@
         id="fileInput"
       >
 
+
       <button
         class="primary"
         onclick="uploadDocument()"
@@ -454,10 +491,12 @@
         Upload Document
       </button>
 
+
       <div
         id="uploadStatus"
         class="status"
       ></div>
+
 
       <p class="security-note">
         Use a long, difficult-to-guess Access Code.
@@ -468,27 +507,34 @@
     </section>
 
 
+
     <footer>
       Document Vault • Powered by Google Drive
     </footer>
 
+
   </div>
+
 
 
   <script>
 
-    /*
-     * IMPORTANT:
-     * Replace this URL with your Google Apps Script Web App URL.
-     */
+    /* =================================================
+       GOOGLE APPS SCRIPT WEB APP URL
+       
+       IMPORTANT:
+       Yahan apna NEW /exec URL paste karein.
+       ================================================= */
 
-    const API_URL = "https://script.google.com/macros/s/AKfycbzj3hSHN19YLxmZEe5AUOqP9_0TrvWFjsPFJhh_Qa4T9PZIcVC00e2VjjLNP1NkO5qvkw/exec";
-    
+    const API_URL =
+      "PASTE_YOUR_NEW_WEB_APP_URL_HERE";
 
 
-    // --------------------------------------------------
-    // Utility
-    // --------------------------------------------------
+
+    /* =================================================
+       UTILITY FUNCTIONS
+       ================================================= */
+
 
     function normalizeCode(code) {
 
@@ -499,17 +545,26 @@
     }
 
 
-    function showStatus(elementId, message, type) {
+
+    function showStatus(
+      elementId,
+      message,
+      type
+    ) {
 
       const element =
-        document.getElementById(elementId);
+        document.getElementById(
+          elementId
+        );
 
-      element.textContent = message;
+      element.textContent =
+        message;
 
       element.className =
         "status " + type;
 
     }
+
 
 
     function formatFileSize(bytes) {
@@ -518,6 +573,7 @@
         return "0 Bytes";
       }
 
+
       const units = [
         "Bytes",
         "KB",
@@ -525,27 +581,33 @@
         "GB"
       ];
 
+
       const i =
         Math.floor(
-          Math.log(bytes) / Math.log(1024)
+          Math.log(bytes) /
+          Math.log(1024)
         );
 
+
       return (
-        (bytes / Math.pow(1024, i))
-          .toFixed(1) +
-        " " +
-        units[i]
+        (bytes /
+          Math.pow(1024, i))
+          .toFixed(1)
+        + " "
+        + units[i]
       );
 
     }
+
 
 
     function formatDate(dateString) {
 
       try {
 
-        return new Date(dateString)
-          .toLocaleString();
+        return new Date(
+          dateString
+        ).toLocaleString();
 
       } catch {
 
@@ -556,9 +618,11 @@
     }
 
 
-    // --------------------------------------------------
-    // LOAD DOCUMENTS
-    // --------------------------------------------------
+
+    /* =================================================
+       LOAD DOCUMENTS
+       ================================================= */
+
 
     async function loadDocuments() {
 
@@ -569,221 +633,17 @@
           ).value
         );
 
+
       const documentsContainer =
         document.getElementById(
           "documents"
         );
 
+
       if (!code) {
 
         showStatus(
           "viewStatus",
-          "Please enter an Access Code.",
-          "error"
-        );
-
-        return;
-
-      }
-
-      showStatus(
-        "viewStatus",
-        "Loading documents...",
-        "loading"
-      );
-
-      documentsContainer.innerHTML = "";
-
-      try {
-
-        const response =
-          await fetch(
-            API_URL +
-            "?action=list&code=" +
-            encodeURIComponent(code)
-          );
-
-        const data =
-          await response.json();
-
-        if (!data.success) {
-
-          throw new Error(
-            data.error ||
-            "Unable to load documents."
-          );
-
-        }
-
-        if (
-          !data.documents ||
-          data.documents.length === 0
-        ) {
-
-          showStatus(
-            "viewStatus",
-            "No documents found for this Access Code.",
-            "error"
-          );
-
-          documentsContainer.innerHTML = `
-            <div class="empty">
-              📂 No documents found.
-            </div>
-          `;
-
-          return;
-
-        }
-
-        showStatus(
-          "viewStatus",
-          data.documents.length +
-          " document(s) found.",
-          "success"
-        );
-
-
-        data.documents.forEach(file => {
-
-          const item =
-            document.createElement("div");
-
-          item.className =
-            "document";
-
-
-          const info =
-            document.createElement("div");
-
-          info.className =
-            "document-info";
-
-
-          const name =
-            document.createElement("div");
-
-          name.className =
-            "document-name";
-
-          name.textContent =
-            "📄 " + file.name;
-
-
-          const meta =
-            document.createElement("div");
-
-          meta.className =
-            "document-meta";
-
-          meta.textContent =
-            file.mimeType +
-            " • " +
-            formatFileSize(file.size) +
-            " • " +
-            formatDate(file.createdAt);
-
-
-          info.appendChild(name);
-
-          info.appendChild(meta);
-
-
-          const actions =
-            document.createElement("div");
-
-          actions.className =
-            "document-actions";
-
-
-          const view =
-            document.createElement("a");
-
-          view.className =
-            "small-button";
-
-          view.textContent =
-            "View";
-
-          view.href =
-            file.url;
-
-          view.target =
-            "_blank";
-
-
-          const download =
-            document.createElement("a");
-
-          download.className =
-            "small-button download";
-
-          download.textContent =
-            "Download";
-
-          download.href =
-            file.downloadUrl;
-
-          download.target =
-            "_blank";
-
-
-          actions.appendChild(view);
-
-          actions.appendChild(download);
-
-
-          item.appendChild(info);
-
-          item.appendChild(actions);
-
-
-          documentsContainer.appendChild(item);
-
-        });
-
-
-      } catch (error) {
-
-        console.error(error);
-
-        showStatus(
-          "viewStatus",
-          "Error: " + error.message,
-          "error"
-        );
-
-      }
-
-    }
-
-
-    // --------------------------------------------------
-    // UPLOAD
-    // --------------------------------------------------
-
-    async function uploadDocument() {
-
-      const code =
-        normalizeCode(
-          document.getElementById(
-            "uploadCode"
-          ).value
-        );
-
-      const fileInput =
-        document.getElementById(
-          "fileInput"
-        );
-
-      const file =
-        fileInput.files[0];
-
-
-      if (!code) {
-
-        showStatus(
-          "uploadStatus",
           "Please enter an Access Code.",
           "error"
         );
@@ -796,7 +656,7 @@
       if (code.length < 6) {
 
         showStatus(
-          "uploadStatus",
+          "viewStatus",
           "Access Code must contain at least 6 characters.",
           "error"
         );
@@ -806,11 +666,315 @@
       }
 
 
-      if (!file) {
+      showStatus(
+        "viewStatus",
+        "Loading documents...",
+        "loading"
+      );
+
+
+      documentsContainer.innerHTML =
+        "";
+
+
+      try {
+
+        const response =
+          await fetch(
+            API_URL +
+            "?action=list&code=" +
+            encodeURIComponent(code)
+          );
+
+
+        const data =
+          await response.json();
+
+
+        if (!data.success) {
+
+          throw new Error(
+            data.error ||
+            "Unable to load documents."
+          );
+
+        }
+
+
+        if (
+          !data.documents ||
+          data.documents.length === 0
+        ) {
+
+          showStatus(
+            "viewStatus",
+            "No documents found for this Access Code.",
+            "error"
+          );
+
+
+          documentsContainer.innerHTML = `
+            <div class="empty">
+              📂 No documents found.
+            </div>
+          `;
+
+
+          return;
+
+        }
+
 
         showStatus(
-          "uploadStatus",
-          "Please select a file.",
+          "viewStatus",
+          data.documents.length +
+          " document(s) found.",
+          "success"
+        );
+
+
+
+        /* =========================================
+           CREATE EACH DOCUMENT
+           ========================================= */
+
+        data.documents.forEach(
+          file => {
+
+
+            const item =
+              document.createElement(
+                "div"
+              );
+
+            item.className =
+              "document";
+
+
+
+            /* DOCUMENT INFO */
+
+            const info =
+              document.createElement(
+                "div"
+              );
+
+            info.className =
+              "document-info";
+
+
+
+            const name =
+              document.createElement(
+                "div"
+              );
+
+            name.className =
+              "document-name";
+
+            name.textContent =
+              "📄 " +
+              file.name;
+
+
+
+            const meta =
+              document.createElement(
+                "div"
+              );
+
+            meta.className =
+              "document-meta";
+
+            meta.textContent =
+              file.mimeType +
+              " • " +
+              formatFileSize(
+                file.size
+              ) +
+              " • " +
+              formatDate(
+                file.createdAt
+              );
+
+
+
+            info.appendChild(
+              name
+            );
+
+            info.appendChild(
+              meta
+            );
+
+
+
+            /* ACTION BUTTONS */
+
+            const actions =
+              document.createElement(
+                "div"
+              );
+
+            actions.className =
+              "document-actions";
+
+
+
+            /* VIEW */
+
+            const view =
+              document.createElement(
+                "a"
+              );
+
+            view.className =
+              "small-button";
+
+            view.textContent =
+              "View";
+
+            view.href =
+              file.url;
+
+            view.target =
+              "_blank";
+
+            view.rel =
+              "noopener noreferrer";
+
+
+
+            /* DOWNLOAD */
+
+            const download =
+              document.createElement(
+                "a"
+              );
+
+            download.className =
+              "small-button download";
+
+            download.textContent =
+              "Download";
+
+            download.href =
+              file.downloadUrl;
+
+            download.target =
+              "_blank";
+
+            download.rel =
+              "noopener noreferrer";
+
+
+
+            /* DELETE */
+
+            const deleteButton =
+              document.createElement(
+                "button"
+              );
+
+            deleteButton.className =
+              "small-button delete";
+
+            deleteButton.textContent =
+              "Delete";
+
+            deleteButton.type =
+              "button";
+
+
+            deleteButton.onclick =
+              function () {
+
+                deleteDocument(
+                  file.id,
+                  file.name
+                );
+
+              };
+
+
+
+            /* ADD BUTTONS */
+
+            actions.appendChild(
+              view
+            );
+
+            actions.appendChild(
+              download
+            );
+
+            actions.appendChild(
+              deleteButton
+            );
+
+
+
+            /* ADD INFO + ACTIONS */
+
+            item.appendChild(
+              info
+            );
+
+            item.appendChild(
+              actions
+            );
+
+
+            documentsContainer.appendChild(
+              item
+            );
+
+          }
+        );
+
+
+      } catch (error) {
+
+        console.error(error);
+
+
+        showStatus(
+          "viewStatus",
+          "Error: " +
+          error.message,
+          "error"
+        );
+
+      }
+
+    }
+
+
+
+    /* =================================================
+       DELETE DOCUMENT
+       ================================================= */
+
+
+    async function deleteDocument(
+      fileId,
+      fileName
+    ) {
+
+
+      const code =
+        normalizeCode(
+          document.getElementById(
+            "accessCode"
+          ).value
+        );
+
+
+      if (!code) {
+
+        showStatus(
+          "viewStatus",
+          "Please enter your Access Code.",
           "error"
         );
 
@@ -819,47 +983,33 @@
       }
 
 
-      /*
-       * Optional file size restriction.
-       *
-       * 25 MB recommended for this simple setup.
-       */
 
-      const MAX_SIZE =
-        25 * 1024 * 1024;
+      /* CONFIRM DELETE */
 
-
-      if (file.size > MAX_SIZE) {
-
-        showStatus(
-          "uploadStatus",
-          "File is too large. Maximum size is 25 MB.",
-          "error"
+      const confirmed =
+        confirm(
+          "Delete this document?\n\n" +
+          fileName +
+          "\n\nThis action cannot be undone."
         );
+
+
+      if (!confirmed) {
 
         return;
 
       }
+
 
 
       showStatus(
-        "uploadStatus",
-        "Preparing upload...",
+        "viewStatus",
+        "Deleting document...",
         "loading"
       );
 
 
       try {
-
-        const base64Data =
-          await fileToBase64(file);
-
-
-        showStatus(
-          "uploadStatus",
-          "Uploading to Google Drive...",
-          "loading"
-        );
 
 
         const formData =
@@ -868,29 +1018,21 @@
 
         formData.append(
           "action",
-          "upload"
+          "delete"
         );
+
 
         formData.append(
           "code",
           code
         );
 
-        formData.append(
-          "fileName",
-          file.name
-        );
 
         formData.append(
-          "mimeType",
-          file.type ||
-          "application/octet-stream"
+          "fileId",
+          fileId
         );
 
-        formData.append(
-          "fileData",
-          base64Data
-        );
 
 
         const response =
@@ -907,6 +1049,227 @@
           await response.json();
 
 
+
+        if (!data.success) {
+
+          throw new Error(
+            data.error ||
+            "Delete failed."
+          );
+
+        }
+
+
+
+        showStatus(
+          "viewStatus",
+          "✓ Document deleted successfully.",
+          "success"
+        );
+
+
+
+        /* REFRESH DOCUMENT LIST */
+
+        loadDocuments();
+
+
+      } catch (error) {
+
+        console.error(error);
+
+
+        showStatus(
+          "viewStatus",
+          "Delete failed: " +
+          error.message,
+          "error"
+        );
+
+      }
+
+    }
+
+
+
+    /* =================================================
+       UPLOAD DOCUMENT
+       ================================================= */
+
+
+    async function uploadDocument() {
+
+
+      const code =
+        normalizeCode(
+          document.getElementById(
+            "uploadCode"
+          ).value
+        );
+
+
+      const fileInput =
+        document.getElementById(
+          "fileInput"
+        );
+
+
+      const file =
+        fileInput.files[0];
+
+
+
+      /* CHECK ACCESS CODE */
+
+      if (!code) {
+
+        showStatus(
+          "uploadStatus",
+          "Please enter an Access Code.",
+          "error"
+        );
+
+        return;
+
+      }
+
+
+
+      if (code.length < 6) {
+
+        showStatus(
+          "uploadStatus",
+          "Access Code must contain at least 6 characters.",
+          "error"
+        );
+
+        return;
+
+      }
+
+
+
+      /* CHECK FILE */
+
+      if (!file) {
+
+        showStatus(
+          "uploadStatus",
+          "Please select a file.",
+          "error"
+        );
+
+        return;
+
+      }
+
+
+
+      /* =========================================
+         FILE SIZE LIMIT
+         ========================================= */
+
+      const MAX_SIZE =
+        25 * 1024 * 1024;
+
+
+      if (
+        file.size >
+        MAX_SIZE
+      ) {
+
+        showStatus(
+          "uploadStatus",
+          "File is too large. Maximum size is 25 MB.",
+          "error"
+        );
+
+        return;
+
+      }
+
+
+
+      showStatus(
+        "uploadStatus",
+        "Preparing upload...",
+        "loading"
+      );
+
+
+
+      try {
+
+
+        /* FILE → BASE64 */
+
+        const base64Data =
+          await fileToBase64(
+            file
+          );
+
+
+
+        showStatus(
+          "uploadStatus",
+          "Uploading to Google Drive...",
+          "loading"
+        );
+
+
+
+        const formData =
+          new URLSearchParams();
+
+
+        formData.append(
+          "action",
+          "upload"
+        );
+
+
+        formData.append(
+          "code",
+          code
+        );
+
+
+        formData.append(
+          "fileName",
+          file.name
+        );
+
+
+        formData.append(
+          "mimeType",
+          file.type ||
+          "application/octet-stream"
+        );
+
+
+        formData.append(
+          "fileData",
+          base64Data
+        );
+
+
+
+        const response =
+          await fetch(
+            API_URL,
+            {
+              method: "POST",
+              body: formData
+            }
+          );
+
+
+
+        const data =
+          await response.json();
+
+
+
         if (!data.success) {
 
           throw new Error(
@@ -917,6 +1280,7 @@
         }
 
 
+
         showStatus(
           "uploadStatus",
           "✓ Document uploaded successfully.",
@@ -924,18 +1288,24 @@
         );
 
 
-        fileInput.value = "";
+
+        /* CLEAR FILE */
+
+        fileInput.value =
+          "";
 
 
-        /*
-         * Automatically load the documents
-         * after successful upload.
-         */
+
+        /* COPY CODE TO VIEW SECTION */
 
         document.getElementById(
           "accessCode"
-        ).value = code;
+        ).value =
+          code;
 
+
+
+        /* SHOW DOCUMENTS */
 
         loadDocuments();
 
@@ -943,6 +1313,7 @@
       } catch (error) {
 
         console.error(error);
+
 
         showStatus(
           "uploadStatus",
@@ -956,50 +1327,64 @@
     }
 
 
-    // --------------------------------------------------
-    // FILE → BASE64
-    // --------------------------------------------------
 
-    function fileToBase64(file) {
+    /* =================================================
+       FILE → BASE64
+       ================================================= */
+
+
+    function fileToBase64(
+      file
+    ) {
 
       return new Promise(
-        (resolve, reject) => {
+        (
+          resolve,
+          reject
+        ) => {
+
 
           const reader =
             new FileReader();
 
 
-          reader.onload = () => {
 
-            /*
-             * FileReader returns:
-             *
-             * data:application/pdf;base64,XXXXX
-             *
-             * We only need XXXXX.
-             */
+          reader.onload =
+            function () {
 
-            const result =
-              reader.result;
 
-            const base64 =
-              result.split(",")[1];
+              const result =
+                reader.result;
 
-            resolve(base64);
 
-          };
+              const base64 =
+                result.split(
+                  ","
+                )[1];
+
+
+              resolve(
+                base64
+              );
+
+            };
+
 
 
           reader.onerror =
             reject;
 
 
-          reader.readAsDataURL(file);
+
+          reader.readAsDataURL(
+            file
+          );
 
         }
       );
 
     }
+
 
   </script>
 
