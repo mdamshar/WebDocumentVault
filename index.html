@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Document Vault</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family:
+        Inter,
+        Arial,
+        sans-serif;
+
+      min-height: 100vh;
+
+      background:
+        linear-gradient(
+          135deg,
+          #eef5ff,
+          #f8fbff
+        );
+
+      color: #172033;
+    }
+
+    .container {
+      width: min(100% - 30px, 900px);
+      margin: auto;
+      padding: 35px 0 60px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .logo {
+      width: 65px;
+      height: 65px;
+
+      margin: 0 auto 15px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 18px;
+
+      background: #2563eb;
+      color: white;
+
+      font-size: 28px;
+      font-weight: bold;
+
+      box-shadow:
+        0 12px 30px rgba(37, 99, 235, .25);
+    }
+
+    h1 {
+      font-size: 30px;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      color: #64748b;
+      font-size: 15px;
+    }
+
+    .card {
+      background: white;
+
+      border-radius: 20px;
+
+      padding: 25px;
+
+      margin-bottom: 20px;
+
+      box-shadow:
+        0 10px 35px rgba(15, 23, 42, .08);
+
+      border: 1px solid #e5eaf2;
+    }
+
+    .card h2 {
+      font-size: 19px;
+      margin-bottom: 8px;
+    }
+
+    .card-description {
+      color: #64748b;
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    input[type="text"],
+    input[type="file"] {
+      width: 100%;
+
+      padding: 13px;
+
+      border: 1px solid #d7dee9;
+
+      border-radius: 11px;
+
+      font-size: 15px;
+
+      outline: none;
+
+      background: #fff;
+    }
+
+    input[type="text"]:focus {
+      border-color: #2563eb;
+
+      box-shadow:
+        0 0 0 3px rgba(37, 99, 235, .1);
+    }
+
+    input[type="file"] {
+      cursor: pointer;
+    }
+
+    button {
+      border: none;
+
+      border-radius: 11px;
+
+      padding: 13px 18px;
+
+      font-size: 15px;
+
+      font-weight: 600;
+
+      cursor: pointer;
+
+      transition: .2s;
+
+      margin-top: 15px;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+    }
+
+    .primary {
+      background: #2563eb;
+      color: white;
+
+      width: 100%;
+    }
+
+    .primary:hover {
+      background: #1d4ed8;
+    }
+
+    .secondary {
+      background: #e8eefc;
+      color: #1d4ed8;
+    }
+
+    .status {
+      display: none;
+
+      margin-top: 15px;
+
+      padding: 12px;
+
+      border-radius: 10px;
+
+      font-size: 14px;
+    }
+
+    .success {
+      display: block;
+
+      background: #ecfdf5;
+
+      color: #047857;
+    }
+
+    .error {
+      display: block;
+
+      background: #fef2f2;
+
+      color: #b91c1c;
+    }
+
+    .loading {
+      display: block;
+
+      background: #eff6ff;
+
+      color: #1d4ed8;
+    }
+
+    .documents {
+      margin-top: 25px;
+    }
+
+    .document {
+      display: flex;
+
+      align-items: center;
+
+      justify-content: space-between;
+
+      gap: 15px;
+
+      padding: 15px;
+
+      margin-bottom: 10px;
+
+      border: 1px solid #e5e7eb;
+
+      border-radius: 13px;
+
+      background: #fafcff;
+    }
+
+    .document-info {
+      min-width: 0;
+    }
+
+    .document-name {
+      font-weight: 600;
+
+      word-break: break-word;
+
+      margin-bottom: 5px;
+    }
+
+    .document-meta {
+      color: #64748b;
+
+      font-size: 12px;
+    }
+
+    .document-actions {
+      display: flex;
+
+      gap: 7px;
+
+      flex-shrink: 0;
+    }
+
+    .small-button {
+      margin: 0;
+
+      padding: 9px 12px;
+
+      font-size: 13px;
+
+      background: #2563eb;
+
+      color: white;
+
+      text-decoration: none;
+
+      border-radius: 8px;
+    }
+
+    .download {
+      background: #0f766e;
+    }
+
+    .empty {
+      text-align: center;
+
+      padding: 30px 10px;
+
+      color: #64748b;
+    }
+
+    .divider {
+      height: 1px;
+
+      background: #e5e7eb;
+
+      margin: 25px 0;
+    }
+
+    .security-note {
+      font-size: 12px;
+
+      color: #64748b;
+
+      margin-top: 10px;
+
+      line-height: 1.6;
+    }
+
+    footer {
+      text-align: center;
+
+      color: #94a3b8;
+
+      font-size: 12px;
+
+      margin-top: 25px;
+    }
+
+    @media (max-width: 600px) {
+
+      .container {
+        width: min(100% - 20px, 900px);
+
+        padding-top: 20px;
+      }
+
+      h1 {
+        font-size: 25px;
+      }
+
+      .card {
+        padding: 18px;
+      }
+
+      .document {
+        align-items: flex-start;
+
+        flex-direction: column;
+      }
+
+      .document-actions {
+        width: 100%;
+      }
+
+      .small-button {
+        flex: 1;
+
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <header>
+
+      <div class="logo">
+        📁
+      </div>
+
+      <h1>Document Vault</h1>
+
+      <p class="subtitle">
+        Secure access to your documents
+      </p>
+
+    </header>
+
+
+    <!-- VIEW DOCUMENTS -->
+
+    <section class="card">
+
+      <h2>🔐 Access Documents</h2>
+
+      <p class="card-description">
+        Enter your Access Code to view your documents.
+      </p>
+
+      <label for="accessCode">
+        Access Code
+      </label>
+
+      <input
+        type="text"
+        id="accessCode"
+        placeholder="Example: A8K92P"
+        autocomplete="off"
+      >
+
+      <button
+        class="primary"
+        onclick="loadDocuments()"
+      >
+        View Documents
+      </button>
+
+      <div
+        id="viewStatus"
+        class="status"
+      ></div>
+
+      <div
+        id="documents"
+        class="documents"
+      ></div>
+
+    </section>
+
+
+    <!-- UPLOAD -->
+
+    <section class="card">
+
+      <h2>📤 Upload Document</h2>
+
+      <p class="card-description">
+        Enter an Access Code and upload your document.
+        The code will be used to find your documents later.
+      </p>
+
+      <label for="uploadCode">
+        Access Code
+      </label>
+
+      <input
+        type="text"
+        id="uploadCode"
+        placeholder="Example: A8K92P"
+        autocomplete="off"
+      >
+
+      <br><br>
+
+      <label for="fileInput">
+        Select Document
+      </label>
+
+      <input
+        type="file"
+        id="fileInput"
+      >
+
+      <button
+        class="primary"
+        onclick="uploadDocument()"
+      >
+        Upload Document
+      </button>
+
+      <div
+        id="uploadStatus"
+        class="status"
+      ></div>
+
+      <p class="security-note">
+        Use a long, difficult-to-guess Access Code.
+        Anyone who knows the code may be able to access
+        the associated documents.
+      </p>
+
+    </section>
+
+
+    <footer>
+      Document Vault • Powered by Google Drive
+    </footer>
+
+  </div>
+
+
+  <script>
+
+    /*
+     * IMPORTANT:
+     * Replace this URL with your Google Apps Script Web App URL.
+     */
+
+    const API_URL =
+      "https://script.google.com/macros/s/AKfycbzDha5Nuzog7zzy-Nxa7Y87A9DTAS5i6Lng6bgB3lOq8eViNdllE3kOicl0jjyJ2_O3qQ/exec";
+
+
+    // --------------------------------------------------
+    // Utility
+    // --------------------------------------------------
+
+    function normalizeCode(code) {
+
+      return code
+        .trim()
+        .toUpperCase();
+
+    }
+
+
+    function showStatus(elementId, message, type) {
+
+      const element =
+        document.getElementById(elementId);
+
+      element.textContent = message;
+
+      element.className =
+        "status " + type;
+
+    }
+
+
+    function formatFileSize(bytes) {
+
+      if (!bytes) {
+        return "0 Bytes";
+      }
+
+      const units = [
+        "Bytes",
+        "KB",
+        "MB",
+        "GB"
+      ];
+
+      const i =
+        Math.floor(
+          Math.log(bytes) / Math.log(1024)
+        );
+
+      return (
+        (bytes / Math.pow(1024, i))
+          .toFixed(1) +
+        " " +
+        units[i]
+      );
+
+    }
+
+
+    function formatDate(dateString) {
+
+      try {
+
+        return new Date(dateString)
+          .toLocaleString();
+
+      } catch {
+
+        return "";
+
+      }
+
+    }
+
+
+    // --------------------------------------------------
+    // LOAD DOCUMENTS
+    // --------------------------------------------------
+
+    async function loadDocuments() {
+
+      const code =
+        normalizeCode(
+          document.getElementById(
+            "accessCode"
+          ).value
+        );
+
+      const documentsContainer =
+        document.getElementById(
+          "documents"
+        );
+
+      if (!code) {
+
+        showStatus(
+          "viewStatus",
+          "Please enter an Access Code.",
+          "error"
+        );
+
+        return;
+
+      }
+
+      showStatus(
+        "viewStatus",
+        "Loading documents...",
+        "loading"
+      );
+
+      documentsContainer.innerHTML = "";
+
+      try {
+
+        const response =
+          await fetch(
+            API_URL +
+            "?action=list&code=" +
+            encodeURIComponent(code)
+          );
+
+        const data =
+          await response.json();
+
+        if (!data.success) {
+
+          throw new Error(
+            data.error ||
+            "Unable to load documents."
+          );
+
+        }
+
+        if (
+          !data.documents ||
+          data.documents.length === 0
+        ) {
+
+          showStatus(
+            "viewStatus",
+            "No documents found for this Access Code.",
+            "error"
+          );
+
+          documentsContainer.innerHTML = `
+            <div class="empty">
+              📂 No documents found.
+            </div>
+          `;
+
+          return;
+
+        }
+
+        showStatus(
+          "viewStatus",
+          data.documents.length +
+          " document(s) found.",
+          "success"
+        );
+
+
+        data.documents.forEach(file => {
+
+          const item =
+            document.createElement("div");
+
+          item.className =
+            "document";
+
+
+          const info =
+            document.createElement("div");
+
+          info.className =
+            "document-info";
+
+
+          const name =
+            document.createElement("div");
+
+          name.className =
+            "document-name";
+
+          name.textContent =
+            "📄 " + file.name;
+
+
+          const meta =
+            document.createElement("div");
+
+          meta.className =
+            "document-meta";
+
+          meta.textContent =
+            file.mimeType +
+            " • " +
+            formatFileSize(file.size) +
+            " • " +
+            formatDate(file.createdAt);
+
+
+          info.appendChild(name);
+
+          info.appendChild(meta);
+
+
+          const actions =
+            document.createElement("div");
+
+          actions.className =
+            "document-actions";
+
+
+          const view =
+            document.createElement("a");
+
+          view.className =
+            "small-button";
+
+          view.textContent =
+            "View";
+
+          view.href =
+            file.url;
+
+          view.target =
+            "_blank";
+
+
+          const download =
+            document.createElement("a");
+
+          download.className =
+            "small-button download";
+
+          download.textContent =
+            "Download";
+
+          download.href =
+            file.downloadUrl;
+
+          download.target =
+            "_blank";
+
+
+          actions.appendChild(view);
+
+          actions.appendChild(download);
+
+
+          item.appendChild(info);
+
+          item.appendChild(actions);
+
+
+          documentsContainer.appendChild(item);
+
+        });
+
+
+      } catch (error) {
+
+        console.error(error);
+
+        showStatus(
+          "viewStatus",
+          "Error: " + error.message,
+          "error"
+        );
+
+      }
+
+    }
+
+
+    // --------------------------------------------------
+    // UPLOAD
+    // --------------------------------------------------
+
+    async function uploadDocument() {
+
+      const code =
+        normalizeCode(
+          document.getElementById(
+            "uploadCode"
+          ).value
+        );
+
+      const fileInput =
+        document.getElementById(
+          "fileInput"
+        );
+
+      const file =
+        fileInput.files[0];
+
+
+      if (!code) {
+
+        showStatus(
+          "uploadStatus",
+          "Please enter an Access Code.",
+          "error"
+        );
+
+        return;
+
+      }
+
+
+      if (code.length < 6) {
+
+        showStatus(
+          "uploadStatus",
+          "Access Code must contain at least 6 characters.",
+          "error"
+        );
+
+        return;
+
+      }
+
+
+      if (!file) {
+
+        showStatus(
+          "uploadStatus",
+          "Please select a file.",
+          "error"
+        );
+
+        return;
+
+      }
+
+
+      /*
+       * Optional file size restriction.
+       *
+       * 25 MB recommended for this simple setup.
+       */
+
+      const MAX_SIZE =
+        25 * 1024 * 1024;
+
+
+      if (file.size > MAX_SIZE) {
+
+        showStatus(
+          "uploadStatus",
+          "File is too large. Maximum size is 25 MB.",
+          "error"
+        );
+
+        return;
+
+      }
+
+
+      showStatus(
+        "uploadStatus",
+        "Preparing upload...",
+        "loading"
+      );
+
+
+      try {
+
+        const base64Data =
+          await fileToBase64(file);
+
+
+        showStatus(
+          "uploadStatus",
+          "Uploading to Google Drive...",
+          "loading"
+        );
+
+
+        const formData =
+          new URLSearchParams();
+
+
+        formData.append(
+          "action",
+          "upload"
+        );
+
+        formData.append(
+          "code",
+          code
+        );
+
+        formData.append(
+          "fileName",
+          file.name
+        );
+
+        formData.append(
+          "mimeType",
+          file.type ||
+          "application/octet-stream"
+        );
+
+        formData.append(
+          "fileData",
+          base64Data
+        );
+
+
+        const response =
+          await fetch(
+            API_URL,
+            {
+              method: "POST",
+              body: formData
+            }
+          );
+
+
+        const data =
+          await response.json();
+
+
+        if (!data.success) {
+
+          throw new Error(
+            data.error ||
+            "Upload failed."
+          );
+
+        }
+
+
+        showStatus(
+          "uploadStatus",
+          "✓ Document uploaded successfully.",
+          "success"
+        );
+
+
+        fileInput.value = "";
+
+
+        /*
+         * Automatically load the documents
+         * after successful upload.
+         */
+
+        document.getElementById(
+          "accessCode"
+        ).value = code;
+
+
+        loadDocuments();
+
+
+      } catch (error) {
+
+        console.error(error);
+
+        showStatus(
+          "uploadStatus",
+          "Upload failed: " +
+          error.message,
+          "error"
+        );
+
+      }
+
+    }
+
+
+    // --------------------------------------------------
+    // FILE → BASE64
+    // --------------------------------------------------
+
+    function fileToBase64(file) {
+
+      return new Promise(
+        (resolve, reject) => {
+
+          const reader =
+            new FileReader();
+
+
+          reader.onload = () => {
+
+            /*
+             * FileReader returns:
+             *
+             * data:application/pdf;base64,XXXXX
+             *
+             * We only need XXXXX.
+             */
+
+            const result =
+              reader.result;
+
+            const base64 =
+              result.split(",")[1];
+
+            resolve(base64);
+
+          };
+
+
+          reader.onerror =
+            reject;
+
+
+          reader.readAsDataURL(file);
+
+        }
+      );
+
+    }
+
+  </script>
+
+</body>
+</html>
