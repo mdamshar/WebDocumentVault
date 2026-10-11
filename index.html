@@ -329,6 +329,153 @@
       margin-top: 25px;
     }
 
+
+    /* =========================================
+       HOW TO USE & BENEFITS
+       ========================================= */
+
+    .footer-guide {
+      margin-top: 30px;
+      padding: 28px;
+      border-radius: 22px;
+      background: linear-gradient(135deg, #0f2f5f 0%, #174a87 55%, #2563eb 100%);
+      color: white;
+      box-shadow: 0 16px 40px rgba(15, 47, 95, .18);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .footer-guide::before {
+      content: "";
+      position: absolute;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.07);
+      right: -70px;
+      top: -80px;
+    }
+
+    .footer-guide-header {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .footer-guide-header h2 {
+      font-size: 22px;
+      margin-bottom: 7px;
+    }
+
+    .footer-guide-header p {
+      color: rgba(255,255,255,.78);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .guide-grid {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .guide-panel {
+      background: rgba(255,255,255,.11);
+      border: 1px solid rgba(255,255,255,.16);
+      border-radius: 16px;
+      padding: 20px;
+      backdrop-filter: blur(8px);
+    }
+
+    .guide-panel h3 {
+      font-size: 16px;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .guide-step,
+    .benefit-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 11px;
+      margin-bottom: 13px;
+    }
+
+    .guide-step:last-child,
+    .benefit-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .step-number,
+    .benefit-icon {
+      width: 28px;
+      height: 28px;
+      min-width: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 9px;
+      background: rgba(255,255,255,.16);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .guide-step strong,
+    .benefit-item strong {
+      display: block;
+      font-size: 13px;
+      margin-bottom: 2px;
+    }
+
+    .guide-step span,
+    .benefit-item span {
+      display: block;
+      color: rgba(255,255,255,.72);
+      font-size: 11.5px;
+      line-height: 1.5;
+    }
+
+    .footer-bottom {
+      position: relative;
+      z-index: 1;
+      margin-top: 22px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(255,255,255,.15);
+      text-align: center;
+      color: rgba(255,255,255,.72);
+      font-size: 12px;
+    }
+
+    .footer-bottom a {
+      color: white;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .footer-bottom a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 600px) {
+      .footer-guide {
+        padding: 20px 16px;
+        border-radius: 18px;
+      }
+
+      .guide-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-guide-header h2 {
+        font-size: 20px;
+      }
+    }
+
     @media (max-width: 600px) {
 
       .container {
@@ -508,9 +655,112 @@
 
 
 
-    <footer>
-      Document Vault • Develop by <a href="http://wa.me/919060419628"> Md Amshar </a>"
-    </footer>
+    <!-- =========================================
+         HOW TO USE & BENEFITS
+         ========================================= -->
+
+    <section class="footer-guide">
+
+      <div class="footer-guide-header">
+        <h2>📚 How to Use & Benefits</h2>
+        <p>
+          A simple and convenient way to store, access and manage
+          your important documents.
+        </p>
+      </div>
+
+      <div class="guide-grid">
+
+        <div class="guide-panel">
+          <h3>🧭 How to Use</h3>
+
+          <div class="guide-step">
+            <div class="step-number">1</div>
+            <div>
+              <strong>Upload Document</strong>
+              <span>Enter your Access Code, select a document and click Upload.</span>
+            </div>
+          </div>
+
+          <div class="guide-step">
+            <div class="step-number">2</div>
+            <div>
+              <strong>View Documents</strong>
+              <span>Enter the same Access Code and click View Documents.</span>
+            </div>
+          </div>
+
+          <div class="guide-step">
+            <div class="step-number">3</div>
+            <div>
+              <strong>View or Download</strong>
+              <span>Open your document or download it whenever you need it.</span>
+            </div>
+          </div>
+
+          <div class="guide-step">
+            <div class="step-number">4</div>
+            <div>
+              <strong>Delete</strong>
+              <span>Remove unwanted documents using the Delete button.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="guide-panel">
+          <h3>✨ Benefits</h3>
+
+          <div class="benefit-item">
+            <div class="benefit-icon">🔐</div>
+            <div>
+              <strong>Private Access</strong>
+              <span>Access documents using your unique Access Code.</span>
+            </div>
+          </div>
+
+          <div class="benefit-item">
+            <div class="benefit-icon">☁️</div>
+            <div>
+              <strong>Cloud Storage</strong>
+              <span>Keep documents stored in Google Drive.</span>
+            </div>
+          </div>
+
+          <div class="benefit-item">
+            <div class="benefit-icon">📱</div>
+            <div>
+              <strong>Anywhere Access</strong>
+              <span>Use the vault from mobile, tablet or computer.</span>
+            </div>
+          </div>
+
+          <div class="benefit-item">
+            <div class="benefit-icon">⚡</div>
+            <div>
+              <strong>Simple & Fast</strong>
+              <span>No complicated account or software is required.</span>
+            </div>
+          </div>
+
+          <div class="benefit-item">
+            <div class="benefit-icon">📂</div>
+            <div>
+              <strong>Organized Documents</strong>
+              <span>Documents are grouped by Access Code for easy management.</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="footer-bottom">
+        Document Vault • Developed by
+        <a href="https://wa.me/919060419628" target="_blank" rel="noopener noreferrer">
+          Md Amshar
+        </a>
+      </div>
+
+    </section>
 
 
   </div>
